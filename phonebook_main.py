@@ -1,11 +1,11 @@
-import os
-import pandas as pd
+from importlib import reload
 from tkinter import *
 from tkinter import messagebox
 from phonebook_add_modify import Add_Modify
 from phonebook_delete import Delete
 from phonebook_find import Find_By_Name
 from phonebook_show_all import Show_All
+
 
 window = Tk()
 window.title("전화번호부")
@@ -14,28 +14,24 @@ window.resizable(False, False)
 
 
 # 찾기 모듈 연결
-pf = Find_By_Name(window)
-
 def activate_pf():
+    pf = Find_By_Name(window)
     pf.modal.deiconify()
 
 # 추가/수정 모듈 연결
-pam = Add_Modify(window)
-
 def activate_pam():
+    pam = Add_Modify(window)
     pam.modal.deiconify()   # 모달 보이기
     # pam.modal.grab_set()    # 모달 창이 닫힐 때까지 부모 창 비활성화
 
 # 삭제 모듈 연결
-pdel = Delete(window)
-
 def activate_pdel():
+    pdel = Delete(window)
     pdel.modal.deiconify()
 
 # 모두 보기 모듈 연견
-pso = Show_All(window)
-
 def activate_pso():
+    pso = Show_All(window)
     pso.modal.deiconify()
 
 

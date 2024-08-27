@@ -24,7 +24,7 @@ class Find_By_Name():
         self.modal.title("이름으로 찾기")
         self.modal.geometry("300x180")
         self.modal.resizable(False, False)
-        self.modal.protocol('WM_DELETE_WINDOW', self.modal.withdraw())
+        self.modal.protocol('WM_DELETE_WINDOW', self.close_modal)
      
         self.name = StringVar(self.modal)
 
@@ -35,6 +35,8 @@ class Find_By_Name():
         self.found_lbl = Label(self.modal, text="")
         self.found_lbl.grid(row = 2, column = 0, columnspan=2, padx = 10, pady = 10)
         self.name_input.bind("<Return>", lambda _: self.find_info())
+        self.modal.focus_set()
+        self.name_input.focus_set()
         
         # self.delete_btn = Button(self.modal, text = "삭제", command=self.delete_info).grid(row = 3, column = 0, padx = 10, pady = 10)
         # self.close_btn = Button(self.modal, text="닫기", command=self.close_modal).grid(row = 3, column = 2, padx = 10, pady = 10)
@@ -56,4 +58,9 @@ class Find_By_Name():
     # 창 닫기 메서드
     def close_modal(self):
         self.modal.withdraw()
-        self.modal.destroy()
+        self.name_input.delete(0, END)
+        self.found_lbl["text"] = ''
+
+        # self.modal.destroy()
+
+    

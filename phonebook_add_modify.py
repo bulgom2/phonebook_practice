@@ -24,6 +24,7 @@ class Add_Modify():
         self.modal.title("신규/수정")
         self.modal.geometry("300x180")
         self.modal.resizable(False, False)
+        self.modal.protocol('WM_DELETE_WINDOW', self.close_modal)
 
         self.name, self.phone, self.email = \
             StringVar(self.modal), StringVar(self.modal), StringVar(self.modal)
@@ -31,10 +32,15 @@ class Add_Modify():
         self.name_lbl = Label(self.modal, text = "이  름 : ", ).grid(row = 0, column = 0, padx = 10, pady = 10)
         self.phone_lbl = Label(self.modal, text = "연락처 : ").grid(row = 1, column = 0, padx = 10, pady = 10)
         self.email_lbl = Label(self.modal, text = "E-mail : ").grid(row = 2, column = 0, padx = 10, pady = 10)
-        self.username_input = Entry(self.modal, textvariable = self.name).grid(row = 0, column = 1, padx = 10, pady = 10)
-        self.phone_input = Entry(self.modal, textvariable = self.phone).grid(row = 1, column = 1, padx = 10, pady = 10)
-        self.email_input = Entry(self.modal, textvariable = self.email).grid(row = 2, column = 1, padx = 10, pady = 10)
+        self.name_input = Entry(self.modal, textvariable = self.name)
+        self.name_input.grid(row = 0, column = 1, padx = 10, pady = 10)
+        self.phone_input = Entry(self.modal, textvariable = self.phone)
+        self.phone_input.grid(row = 1, column = 1, padx = 10, pady = 10)
+        self.email_input = Entry(self.modal, textvariable = self.email)
+        self.email_input.grid(row = 2, column = 1, padx = 10, pady = 10)
         self.write_btn = Button(self.modal, text = "입력", command=self.write_info).grid(row = 3, column = 1, padx = 10, pady = 10)
+        self.modal.focus_set()
+        self.name_input.focus_set()
 
         self.modal.withdraw()
 
@@ -52,9 +58,22 @@ class Add_Modify():
             self.df.loc[len(self.df.index)] = {"Name": new_name, "Phone": new_phone, "Email": new_email}
 
         # 변경 사항 저장
+        self.modal.lift()
         self.df.to_csv(self.phonebook_file_path, index=False)
-        messagebox.showinfo("완료", "정보가 저장되었습니다.")
+        messagebox.showinfo(parent=self.modal, title="완료", message="정보가 저장되었습니다.")
         self.modal.withdraw()
+        self.name_input.delete(0, END)
+        self.phone_input.delete(0, END)
+        self.email_input.delete(0, END)
+    
+    # 창 닫기 메서드
+    def close_modal(self):
+        self.modal.withdraw()
+        self.name_input.delete(0, END)
+        self.phone_input.delete(0, END)
+        self.email_input.delete(0, END)
+
+    
 
     # def get_focus(self):
 
